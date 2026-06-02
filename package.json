@@ -46,7 +46,7 @@
   "author": "dreamor",
   "license": "MIT",
   "engines": {
-    "node": ">=18.17"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@mozilla/readability": "^0.5.0",
