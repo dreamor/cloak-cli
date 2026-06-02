@@ -1,9 +1,9 @@
-# @cloak/cli
+# @dreamor/cloakbrowser-cli
 
 > Agent-friendly CLI for [CloakBrowser](https://github.com/CloakHQ/CloakBrowser) — stealth Chromium that passes every bot detection test. Covers all CloakBrowser features so other AI agents can drive a real browser from any shell.
 
 ```bash
-npm install -g @cloak/cli cloakbrowser playwright-core
+npm install -g @dreamor/cloakbrowser-cli cloakbrowser playwright-core
 cloak doctor                    # confirm everything is installed
 cloak binary install            # one-time ~200MB Chromium download
 cloak fetch https://example.com --markdown --pretty
@@ -13,7 +13,7 @@ cloak fetch https://example.com --markdown --pretty
 
 CloakBrowser ships a Python/JS SDK plus a Python `python -m cloakbrowser` CLI for binary management and a `cloakserve` CDP gateway — but no CLI for the browser itself. Agents calling shell commands need a structured surface that covers **all** of CloakBrowser: launch options, fingerprint flags, humanize behaviors, page operations, content extraction, cookies, storage, network, multi-page sessions, and the CDP server.
 
-`@cloak/cli` is that surface.
+`@dreamor/cloakbrowser-cli` is that surface.
 
 ## Two ways to use it
 
@@ -42,7 +42,7 @@ The daemon keeps `Browser`, `Context`, and `Page` instances alive between CLI in
 ## Install
 
 ```bash
-npm install -g @cloak/cli cloakbrowser playwright-core
+npm install -g @dreamor/cloakbrowser-cli cloakbrowser playwright-core
 ```
 
 Requires Node 18.17+. Peer deps `cloakbrowser` and `playwright-core` are installed alongside.
