@@ -1,5 +1,5 @@
 {
-  "name": "@dreamor/cloak-cli",
+  "name": "cloakbrowser-cli",
   "version": "0.1.0",
   "description": "Agent-friendly CLI for CloakBrowser — stealth Chromium that passes bot detection. Covers all CloakBrowser features for use by AI agents.",
   "type": "module",
@@ -15,11 +15,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dreamor/cloak-cli.git"
+    "url": "git+https://github.com/dreamor/cloakbrowser-cli.git"
   },
-  "homepage": "https://github.com/dreamor/cloak-cli#readme",
+  "homepage": "https://github.com/dreamor/cloakbrowser-cli#readme",
   "bugs": {
-    "url": "https://github.com/dreamor/cloak-cli/issues"
+    "url": "https://github.com/dreamor/cloakbrowser-cli/issues"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",

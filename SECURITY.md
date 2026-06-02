@@ -6,7 +6,7 @@
 
 If you discover a security vulnerability in CloakBrowser CLI, please report it responsibly:
 
-1. **Email**: Open a GitHub Security Advisory at [github.com/dreamor/cloak-cli/security/advisories/new](https://github.com/dreamor/cloak-cli/security/advisories/new)
+1. **Email**: Open a GitHub Security Advisory at [github.com/dreamor/cloakbrowser-cli/security/advisories/new](https://github.com/dreamor/cloakbrowser-cli/security/advisories/new)
 2. **Include**:
    - A description of the vulnerability
    - Steps to reproduce

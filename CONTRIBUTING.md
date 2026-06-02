@@ -12,8 +12,8 @@ Thanks for your interest in contributing! This guide covers everything you need 
 ## Setup
 
 ```bash
-git clone https://github.com/dreamor/cloak-cli.git
-cd cloak-cli
+git clone https://github.com/dreamor/cloakbrowser-cli.git
+cd cloakbrowser-cli
 npm install
 npm run build
 ```
