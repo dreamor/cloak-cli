@@ -1,0 +1,80 @@
+{
+  "name": "@dreamor/cloak-cli",
+  "version": "0.1.0",
+  "description": "Agent-friendly CLI for CloakBrowser — stealth Chromium that passes bot detection. Covers all CloakBrowser features for use by AI agents.",
+  "type": "module",
+  "bin": {
+    "cloak": "./bin/cloak.js"
+  },
+  "main": "./dist/cli.js",
+  "files": [
+    "dist",
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreamor/cloak-cli.git"
+  },
+  "homepage": "https://github.com/dreamor/cloak-cli#readme",
+  "bugs": {
+    "url": "https://github.com/dreamor/cloak-cli/issues"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/cli.ts",
+    "watch": "tsc -p tsconfig.json --watch",
+    "test": "vitest run tests/unit",
+    "test:e2e": "vitest run tests/e2e",
+    "test:all": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "cloakbrowser",
+    "stealth",
+    "playwright",
+    "chromium",
+    "bot-detection",
+    "fingerprint",
+    "agent",
+    "cli",
+    "scraping"
+  ],
+  "author": "dreamor",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.17"
+  },
+  "dependencies": {
+    "@mozilla/readability": "^0.5.0",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "jsdom": "^25.0.0",
+    "turndown": "^7.2.0"
+  },
+  "peerDependencies": {
+    "cloakbrowser": ">=0.3.0",
+    "playwright-core": ">=1.40.0"
+  },
+  "peerDependenciesMeta": {
+    "cloakbrowser": {
+      "optional": false
+    },
+    "playwright-core": {
+      "optional": false
+    }
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.7",
+    "@types/node": "^22.0.0",
+    "@types/turndown": "^5.0.5",
+    "cloakbrowser": ">=0.3.0",
+    "playwright-core": ">=1.40.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

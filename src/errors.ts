@@ -1,0 +1,61 @@
+export type ErrorCode =
+  | 'BOOT_ERROR'
+  | 'INVALID_ARG'
+  | 'INVALID_JSON'
+  | 'MISSING_DEPENDENCY'
+  | 'DAEMON_NOT_RUNNING'
+  | 'DAEMON_ALREADY_RUNNING'
+  | 'DAEMON_TIMEOUT'
+  | 'SESSION_NOT_FOUND'
+  | 'PAGE_NOT_FOUND'
+  | 'BROWSER_LAUNCH_FAILED'
+  | 'NAVIGATION_FAILED'
+  | 'TIMEOUT'
+  | 'SELECTOR_NOT_FOUND'
+  | 'EVAL_FAILED'
+  | 'NETWORK_ERROR'
+  | 'IO_ERROR'
+  | 'NOT_IMPLEMENTED'
+  | 'INTERNAL_ERROR';
+
+export class CloakError extends Error {
+  public readonly code: ErrorCode;
+  public readonly details?: Record<string, unknown>;
+
+  constructor(code: ErrorCode, message: string, details?: Record<string, unknown>) {
+    super(message);
+    this.name = 'CloakError';
+    this.code = code;
+    this.details = details;
+  }
+
+  toJSON(): { code: ErrorCode; message: string; details?: Record<string, unknown> } {
+    return {
+      code: this.code,
+      message: this.message,
+      ...(this.details ? { details: this.details } : {}),
+    };
+  }
+}
+
+export function fromUnknown(err: unknown): CloakError {
+  if (err instanceof CloakError) return err;
+  if (err instanceof Error) {
+    // Map known Playwright/cloakbrowser errors
+    const msg = err.message;
+    if (/Timeout .* exceeded/i.test(msg)) {
+      return new CloakError('TIMEOUT', msg);
+    }
+    if (/Cannot find module ['"]cloakbrowser['"]|Cannot find module ['"]playwright-core['"]/i.test(msg)) {
+      return new CloakError('MISSING_DEPENDENCY', msg);
+    }
+    if (/net::ERR_|page\.goto/i.test(msg)) {
+      return new CloakError('NAVIGATION_FAILED', msg);
+    }
+    if (/selector|locator/i.test(msg)) {
+      return new CloakError('SELECTOR_NOT_FOUND', msg);
+    }
+    return new CloakError('INTERNAL_ERROR', msg, { stack: err.stack });
+  }
+  return new CloakError('INTERNAL_ERROR', String(err));
+}
