@@ -12,3 +12,4 @@ coverage/
 *.har
 test-results/
 .clang-format
+.codegraph/
