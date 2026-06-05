@@ -49,6 +49,7 @@ jobs:
           package-manager-cache: false
       - run: npm ci
       - run: npm run build
+      - run: npm whoami || echo "not authenticated"
       - run: npm publish --access public --provenance
 
   github-release:
