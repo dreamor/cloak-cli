@@ -49,8 +49,9 @@ jobs:
           package-manager-cache: false
       - run: npm ci
       - run: npm run build
-      - run: npm whoami || echo "not authenticated"
       - run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ''
 
   github-release:
     name: Create GitHub Release
