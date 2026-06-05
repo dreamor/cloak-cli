@@ -58,8 +58,9 @@ import { buildDaemonCmd } from './commands/daemon.js';
 import { buildFetchCmd, buildScrapeCmd } from './commands/oneshot.js';
 import { buildBinaryCmd, buildServeCmd, buildConnectCmd } from './commands/binary.js';
 import { buildDoctorCmd, buildTestCmd, buildVersionCmd } from './commands/doctor.js';
+import { buildFingerprintCmd } from './commands/fingerprint.js';
 
-const CLI_VERSION = '0.1.0';
+const CLI_VERSION = '0.1.1';
 
 export async function main(argv: string[]): Promise<void> {
   ensureRoot();
@@ -151,6 +152,9 @@ export async function main(argv: string[]): Promise<void> {
   program.addCommand(buildDoctorCmd(globalFlags));
   program.addCommand(buildTestCmd(globalFlags));
   program.addCommand(buildVersionCmd(globalFlags, CLI_VERSION));
+
+  // Fingerprint help
+  program.addCommand(buildFingerprintCmd(globalFlags));
 
   // After parse, close client if it was opened
   program.hook('postAction', () => {

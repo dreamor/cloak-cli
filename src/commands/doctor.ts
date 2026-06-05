@@ -60,15 +60,20 @@ export function buildTestCmd(g: GF): Command {
     .option('--humanize', 'Enable humanize for the test')
     .option('--proxy <url>')
     .option('--screenshot <path>', 'Save screenshot of the test page')
+    .option('--wait-until <event>', 'Navigation wait strategy (load|domcontentloaded|networkidle|commit)', 'domcontentloaded')
+    .option('--timeout <ms>', 'Navigation timeout in milliseconds', '60000')
     .action(async (opts: Record<string, unknown>) => {
       const flags = g();
       try {
         const { oneShotFetch } = await import('../one-shot.js');
         const url = detectorUrl(String(opts.detector ?? 'fingerprintjs'));
+        const waitUntil = (opts.waitUntil as string) || 'domcontentloaded';
+        const navTimeout = Number(opts.timeout) || 60000;
         const fetchOpts: Parameters<typeof oneShotFetch>[1] = {
           ...(opts.humanize ? { humanize: true } : {}),
           ...(opts.proxy ? { proxy: opts.proxy as string } : {}),
-          waitUntil: 'networkidle',
+          waitUntil: waitUntil as 'load' | 'domcontentloaded' | 'networkidle' | 'commit',
+          navTimeout,
           wantText: true,
         };
         if (opts.screenshot) {

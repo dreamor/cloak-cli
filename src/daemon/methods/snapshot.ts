@@ -84,7 +84,15 @@ export const snapshotMethods: Record<string, MethodFn> = {
   'page.accessibility': async (params, ctx: MethodCtx) => {
     const sid = reqStr(params, 'session_id');
     const ref = ctx.registry.requirePage(sid, optStr(params, 'page_id'));
-    const tree = await ref.page.accessibility.snapshot({ interestingOnly: true });
+    const a11y = ref.page.accessibility;
+    if (!a11y || typeof a11y.snapshot !== 'function') {
+      throw new CloakError(
+        'UNSUPPORTED_OPERATION',
+        'page.accessibility is not available in this browser/context. ' +
+        'Try using "cloak snapshot" instead, which provides a similar element tree via DOM inspection.'
+      );
+    }
+    const tree = await a11y.snapshot({ interestingOnly: true });
     return { tree };
   },
 };

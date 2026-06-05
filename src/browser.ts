@@ -151,16 +151,13 @@ export async function getPageOrCreate(handle: LaunchedHandle): Promise<AnyPage> 
     if (existing && !existing.isClosed()) return existing;
     return handle.context.newPage();
   }
-  const browser = handle.browser;
-  const ctxs = browser.contexts();
-  const first = ctxs[0];
-  if (first) {
-    const pages = first.pages();
-    const existing = pages[0];
-    if (existing && !existing.isClosed()) return existing;
-    return first.newPage();
-  }
-  return browser.newPage();
+  // For browser-kind handles, always use an explicit context to avoid
+  // the implicit default context that forbids newPage() in some engines.
+  const ctx = await getDefaultContext(handle);
+  const pages = ctx.pages();
+  const existing = pages[0];
+  if (existing && !existing.isClosed()) return existing;
+  return ctx.newPage();
 }
 
 export async function getDefaultContext(handle: LaunchedHandle): Promise<AnyContext> {

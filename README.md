@@ -83,7 +83,7 @@ The envelope is stable:
 
 Add `--pretty` for human-readable colored output (auto when stdout is a TTY). Add `--quiet` to emit only `data` (without the envelope) on success.
 
-Error `code` values: `BOOT_ERROR`, `INVALID_ARG`, `INVALID_JSON`, `MISSING_DEPENDENCY`, `DAEMON_NOT_RUNNING`, `DAEMON_ALREADY_RUNNING`, `DAEMON_TIMEOUT`, `SESSION_NOT_FOUND`, `PAGE_NOT_FOUND`, `BROWSER_LAUNCH_FAILED`, `NAVIGATION_FAILED`, `TIMEOUT`, `SELECTOR_NOT_FOUND`, `EVAL_FAILED`, `NETWORK_ERROR`, `IO_ERROR`, `NOT_IMPLEMENTED`, `INTERNAL_ERROR`.
+Error `code` values: `BOOT_ERROR`, `INVALID_ARG`, `INVALID_JSON`, `MISSING_DEPENDENCY`, `DAEMON_NOT_RUNNING`, `DAEMON_ALREADY_RUNNING`, `DAEMON_TIMEOUT`, `SESSION_NOT_FOUND`, `PAGE_NOT_FOUND`, `BROWSER_LAUNCH_FAILED`, `NAVIGATION_FAILED`, `TIMEOUT`, `SELECTOR_NOT_FOUND`, `EVAL_FAILED`, `NETWORK_ERROR`, `IO_ERROR`, `NOT_IMPLEMENTED`, `UNSUPPORTED_OPERATION`, `INTERNAL_ERROR`.
 
 ## Command map
 
@@ -122,13 +122,13 @@ All accept `--page <pid>` and `--timeout <ms>`. `goto` also takes `--wait-until=
 ### Content extraction
 `content` (HTML) · `text` (innerText, `--selector` to scope) · `html --selector` · `attr <sel> <name>` · `markdown` (Readability + Turndown) · `screenshot [--path] [--full-page] [--selector] [--format png|jpeg] [--quality]` · `pdf [--path] [--format A4] [--landscape]`
 
-Binary outputs are returned as base64 by default; pass `--path=FILE` to write to disk (response includes `{path, size, sha256}`).
+Binary outputs are returned as base64 by default; pass `--path=FILE` to write to disk (response includes `{path, size, sha256}`). The global `--out <path>` flag also works as a fallback for `--path`.
 
 ### Interaction (all use humanize when session was started with `--humanize`)
 `click` · `dblclick` · `fill` · `type` · `press` · `hover` · `focus` · `blur` · `scroll [--to top|bottom|<sel>] [-x] [-y]` · `select <sid> <sel> <value...>` · `check` · `uncheck` · `upload <sid> <sel> <file...>` · `drag <sid> <from> <to>` · `dispatch <sid> <sel> <event_type> [--init <json>]`
 
 ### Wait / Snapshot / Frames
-`cloak wait <sid> [--selector] [--text] [--url] [--state visible|hidden|attached|detached] [--load-state load|networkidle] [--timeout]` · `cloak sleep <sid> <ms>` · `cloak snapshot <sid>` (a11y-style tree with uids) · `cloak frames <sid>` · `cloak a11y <sid>` (raw Playwright accessibility tree)
+`cloak wait <sid> [--selector] [--text] [--url] [--state visible|hidden|attached|detached] [--load-state load|networkidle] [--timeout]` · `cloak sleep <sid> <ms>` · `cloak snapshot <sid>` (a11y-style tree with uids) · `cloak frames <sid>` · `cloak a11y <sid>` (raw Playwright accessibility tree; returns `UNSUPPORTED_OPERATION` if unavailable — use `snapshot` instead)
 
 `snapshot` is the recommended entry point for agent reasoning: it tags every visible interactive element with `data-cloak-uid` and returns role, name, attrs, bounding box, and a usable selector for each.
 
@@ -158,7 +158,10 @@ Binary outputs are returned as base64 by default; pass `--path=FILE` to write to
 `cloak connect <ws_url>` — create a session attached to an existing CDP endpoint.
 
 ### Self-test
-`cloak doctor` · `cloak test [--detector fingerprintjs|browserscan|botd|sannysoft] [--humanize] [--proxy] [--screenshot <path>]` · `cloak version`
+`cloak doctor` · `cloak test [--detector fingerprintjs|browserscan|botd|sannysoft] [--humanize] [--proxy] [--screenshot <path>] [--wait-until load|domcontentloaded|networkidle|commit] [--timeout <ms>]` · `cloak version`
+
+### Fingerprint help
+`cloak fingerprint` — lists all fingerprint options and usage examples. Fingerprint flags are set at session creation (`session new`) or in one-shot commands (`fetch`, `scrape`); this command shows what's available.
 
 ## Launch options (shared by `session new`, `fetch`, `scrape`)
 

@@ -16,6 +16,7 @@ export type ErrorCode =
   | 'NETWORK_ERROR'
   | 'IO_ERROR'
   | 'NOT_IMPLEMENTED'
+  | 'UNSUPPORTED_OPERATION'
   | 'INTERNAL_ERROR';
 
 export class CloakError extends Error {

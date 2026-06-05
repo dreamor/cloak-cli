@@ -76,7 +76,9 @@ export function buildScreenshotCmd(g: GF): Command {
     .action(async (sid: string, opts: Record<string, unknown>) => {
       const flags = g();
       const params: Record<string, unknown> = { session_id: sid };
-      if (opts.path) params.path = opts.path;
+      // --path takes precedence; fall back to global --out
+      const outPath = (opts.path as string) || flags.out;
+      if (outPath) params.path = outPath;
       if (opts.fullPage) params.full_page = true;
       if (opts.selector) params.selector = opts.selector;
       if (opts.format) params.format = opts.format;
@@ -95,7 +97,9 @@ export function buildPdfCmd(g: GF): Command {
     .action(async (sid: string, opts: Record<string, unknown>) => {
       const flags = g();
       const params: Record<string, unknown> = { session_id: sid };
-      if (opts.path) params.path = opts.path;
+      // --path takes precedence; fall back to global --out
+      const outPath = (opts.path as string) || flags.out;
+      if (outPath) params.path = outPath;
       if (opts.format) params.format = opts.format;
       if (opts.landscape) params.landscape = true;
       if (opts.page) params.page_id = opts.page;

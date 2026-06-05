@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-06-05
+
+### Fixed
+
+- **a11y crash** — `cloak a11y <sid>` threw `Cannot read properties of undefined (reading 'snapshot')` when `page.accessibility` was unavailable. Now returns a clear `UNSUPPORTED_OPERATION` error with a hint to use `cloak snapshot` instead.
+- **page.new crash** — `cloak page new <sid>` threw `Please use browser.newContext()` for sessions created without context-level options. `getPageOrCreate()` now always creates an explicit `BrowserContext` before creating pages, instead of falling through to the implicit default context via `browser.newPage()`.
+- **--out flag ignored** — The global `--out <path>` flag was parsed but never forwarded to screenshot/pdf output handling. `screenshot` and `pdf` commands now use `--out` as a fallback when `--path` is not specified.
+- **fingerprint subcommand** — `cloak fingerprint` dumped the full help text because no subcommand was registered. Added a `fingerprint` command that lists all fingerprint options and usage examples.
+
+### Changed
+
+- **test command defaults** — `cloak test` now uses `domcontentloaded` (instead of `networkidle`) as the default navigation wait strategy, and adds `--wait-until` and `--timeout` options. This avoids 30s timeouts on sites with persistent WebSocket connections.
+- **New error code** — Added `UNSUPPORTED_OPERATION` to the error code set for API features unavailable in the current browser/context.
+
 ## [0.1.0] - 2026-06-02
 
 ### Added
